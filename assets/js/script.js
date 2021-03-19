@@ -1,25 +1,18 @@
 const clone = $(".contents>div:first-child").clone();
-const meun = document.querySelector('.nav');
-const meunLi = document.querySelector('.nav');
+const menu = document.querySelector('.nav');
+const menuLi = document.querySelector('.nav');
 const content = document.querySelector('.contents');
 const jsonLocation = 'music_data.json';
 const input = document.querySelectorAll('.form-control');
+const categoryTitle = document.querySelectorAll('.col-md-12');
 const create = (tag) => document.createElement(tag);
+const addBtn = document.querySelectorAll('.btn')
 let current_category = "ALL";
 $.getJSON(jsonLocation, init);
-// const elbum = document.querySelector('') 
+categoryTitle[0].innerHTML = "";
+categoryTitle[0].innerHTML = `<h2>ALL</h2>`
 
 function init({ data }) {
-    // function controllDisplay(This) {
-    //     // console.log(meun.children.classList.contains('active-menu'));
-    //     return
-    //     [...meunLi.children].forEach((element) => {
-    //         console.log(element)
-    //         element.classList.remove("active-menu");
-    //     });
-    //     This.classList.add("active-menu");
-    // }
-
     // HTMLElement.prototype.parent = function(selector) {
     //     let parent = this;
     //     let check = true;
@@ -46,7 +39,34 @@ function init({ data }) {
     
     //     return parent;
     //  };
-    
+    //  parent(selector) {
+    //     let parent = this;
+    //     let check = true;
+  
+    //     const type = selector.match("#");
+  
+    //     if(type !== null) {
+    //        while(check) {
+    //           if(parent.id !== selector.replace("#", ""))
+    //              parent = parent.parentNode;
+    //           else
+    //              check = false;
+    //        };
+  
+    //        return parent;
+    //     };
+  
+    //     while(check) {
+    //        if(parent.classList.contains(selector.replace(".", ""))) {
+    //           check = false;
+    //        }else
+    //           parent = parent.parentNode;
+    //     };
+  
+    //     return parent;
+    //  };
+
+
     //  HTMLElement.prototype.find = function(target) {
     
     //     return this.querySelector(target);
@@ -64,40 +84,53 @@ function init({ data }) {
         }
     }
     const createMenu = function (text) {
-        console.log(text)
         const li = create("li");
         li.innerHTML = `
                         <a href="#"><i class="fa fa-youtube-play fa-2x"></i> <span>${text}</span></a>
                         `;
-        meun.append(li)
+        menu.append(li)
     }
 
-    meun.childNodes[5].remove();
+    menu.childNodes[5].remove();
     Array.from(new Set(data.map(data => data.category))).forEach(createMenu)
 
 
-    const a = [...document.querySelectorAll("#main-menu li:not(:first-child)")].forEach(li => {
-        li.addEventListener("click", function (e) {
+    const menuSelection = [...document.querySelectorAll("#main-menu li:not(:first-child)")].forEach(li => {
+        li.addEventListener("click", function ({ target }) {
             content.innerHTML = "";
             current_category = this.textContent.trim();
             data.forEach(item);
+            categoryTitle[0].innerHTML = "";
+            categoryTitle[0].innerHTML = `<h2>${this.textContent}</h2>`
+            // 메뉴 클릭시 하아라이트
+           const menuHeight = [...li.parentNode.children].forEach((ff) => ff.children[0].classList.remove('active-menu'))
+            if(!target.classList.contains('active-menu')){    
+            this.children[0].classList.add('active-menu');
+        }
         })
     })
 
 
     content.innerHTML = "";
     data.forEach(item);
-    console.log(input[0])
-    input[1].addEventListener("keydown", function ({ key }) {
-        console.log(this.value)
+    input[1].addEventListener("keydown", function ({ key, target }) {
         if (key === "Enter") {
             content.innerHTML = "";
-            // s.innerText.includes(this.value)
-            const b = [...data].filter(({ albumName, artist, release, price }) => albumName.includes(this.value) || artist.includes(this.value) || release.includes(this.value) || price.includes(this.value)).forEach(item)
-
-            // const b = [...content.children].filter((s) => s.innerText === input.value ).forEach((e) => console.log(e))
+            // const fullScan = [...data].filter(({ albumName, artist }) => albumName.includes(this.value) || artist.includes(this.value)).forEach(item);
+            const fullScan = [...data].filter(({ albumName, artist }) => albumName.includes(this.value) || artist.includes(this.value)).map(data => {
+                data.albumName = data.albumName.replaceAll(this.value, `<p>${this.value}</p>`);
+                data.artist = data.artist.replaceAll(this.value, `<p style="color: red;">${this.value}</p>`);
+                return data;
+            }).forEach(item)
         }
     })
 
+    content.addEventListener('click',function({ target }){
+        if(target.classList.contains('btn')){
+            target.innerHTML = ""
+            target.innerHTML = `<i class="fa fa-shopping-cart"></i> 추가하기 (1개) `
+            console.log(target.parentNode.closest('span'))
+        }
+    })
 };
 

@@ -13,64 +13,7 @@ categoryTitle[0].innerHTML = "";
 categoryTitle[0].innerHTML = `<h2>ALL</h2>`
 
 function init({ data }) {
-    // HTMLElement.prototype.parent = function(selector) {
-    //     let parent = this;
-    //     let check = true;
-    
-    //     const type = selector.match("#");
-    
-    //     if(type !== null) {
-    //        while(check) {
-    //           if(parent.id !== selector.replace("#", ""))
-    //              parent = parent.parentNode;
-    //           else
-    //              check = false;
-    //        };
-    
-    //        return parent;
-    //     };
-    
-    //     while(check) {
-    //        if(parent.classList.contains(selector.replace(".", ""))) {
-    //           check = false;
-    //        }else
-    //           parent = parent.parentNode;
-    //     };
-    
-    //     return parent;
-    //  };
-    //  parent(selector) {
-    //     let parent = this;
-    //     let check = true;
-  
-    //     const type = selector.match("#");
-  
-    //     if(type !== null) {
-    //        while(check) {
-    //           if(parent.id !== selector.replace("#", ""))
-    //              parent = parent.parentNode;
-    //           else
-    //              check = false;
-    //        };
-  
-    //        return parent;
-    //     };
-  
-    //     while(check) {
-    //        if(parent.classList.contains(selector.replace(".", ""))) {
-    //           check = false;
-    //        }else
-    //           parent = parent.parentNode;
-    //     };
-  
-    //     return parent;
-    //  };
-
-
-    //  HTMLElement.prototype.find = function(target) {
-    
-    //     return this.querySelector(target);
-    // };
+   
     function item({ category, albumJaketImage, albumName, artist, release, price }) {
         const itemClone = clone.clone();
         itemClone
